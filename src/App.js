@@ -1,5 +1,6 @@
 import Expenses from "./components/Expenses/Expenses";
 import NewExpense from "./components/NewExpense/NewExpense";
+import Chart from "./components/Chart/Chart";
 import { useState } from "react";
 
 const App = () => {
@@ -31,9 +32,19 @@ const App = () => {
         setExpenses((prevExpenses) => [expenseData, ...prevExpenses]);
     }
 
+    const generateDataPoints = (expense) => {
+        return {
+            value: expense.amount,
+            label: expense.date.toLocaleString("en-us", {month: "long"})
+        };
+    }
+
+    const expensesDataPoints = expenses.map(generateDataPoints)
+
     return (
         <div>
             <NewExpense onAddExpense={addExpenseHandler} />
+            <Chart dataPoints={expensesDataPoints} />
             <Expenses expenses={expenses} />
         </div>
     );
